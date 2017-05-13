@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="filequeue" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" phpdoc-package="filequeue"
+       version="1.1">
+
+  <object class="fileQueueItem" table="filequeue_items" extends="xPDOSimpleObject">
+    <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+    <field key="filename" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+    <field key="status" dbtype="tinyint" precision="1" phptype="int" null="false" default="0"/>
+    <field key="createdon" dbtype="int" precision="20" phptype="timestamp" null="false" default="0" />
+    <field key="createdby" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+    <field key="processedon" dbtype="int" precision="20" phptype="timestamp" null="false" default="0" />
+    <composite alias="fileQueueLogs" class="fileQueueLog" local="id" foreign="fileid" cardinality="many" owner="local" />
+  </object>
+    
+  <object class="fileQueueLog" table="filequeue_logs" extends="xPDOSimpleObject">
+    <field key="fileid" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+    <field key="createdon" dbtype="int" precision="20" phptype="timestamp" null="false" default="0" />
+    <field key="message" dbtype="varchar" precision="500" phptype="string" null="false" default=""/>
+    <aggregate alias="fileQueueItem" class="fileQueueItem" local="fileid" foreign="id" cardinality="one" owner="foreign" />
+  </object>
+    
+</model>
